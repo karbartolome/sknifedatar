@@ -21,10 +21,13 @@ automagic_tabs <- function(input_data , panel_name, .output, .layout = NULL, ...
   knit_code <- NULL
   for (i in 1:nrow(input_data)) {
     #Capture time to diference same chunks
-    time_acual <- Sys.time() %>% as.character()
+    time_acual <- paste0(Sys.time() %>% lubridate::hour() %>% as.character(),
+                         Sys.time() %>% lubridate::minute() %>% as.character(),
+                         Sys.time() %>% lubridate::second() %>% as.character())
 
     knit_code_individual <- paste0(":::{.panel}\n### `r ", data_name,"$",panel_name,"[[",i,
                                    "]]` {.panel-name}\n```{r   `r ", i,
+                                   time_acual,
                                    "`, echo=FALSE, layout='",.layout,"', ",
                                    parse_extra_argumnets,
                                    "}\n\n ",data_name,"$",.output,"[[",i,
